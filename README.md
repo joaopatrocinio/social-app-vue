@@ -1,4 +1,4 @@
-# test
+# Social App (Vue)
 
 ## Project setup
 ```
