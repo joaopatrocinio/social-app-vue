@@ -17,7 +17,7 @@
             <b-navbar-nav class="ml-auto">
                 <b-nav-item-dropdown right>
                     <template v-slot:button-content>
-                        <span v-if="loggedIn">Logged in</span>
+                        <span v-if="loggedIn">{{ email }}</span>
                         <span v-else>Not logged in</span>
                     </template>
                     <router-link class="dropdown-item" to="/login">Login</router-link>
@@ -31,10 +31,12 @@
 <script>
 export default {
     name: 'Header',
-    props: ["loggedIn"],
-    data: function () {
-        return {
-            email: ""
+    computed: {
+        loggedIn() {
+            return this.$store.state.auth.loggedIn
+        },
+        email() {
+            return this.$store.state.auth.email
         }
     }
 }

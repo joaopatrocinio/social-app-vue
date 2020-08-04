@@ -15,9 +15,11 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'Login',
-    data: function () {
+    data() {
         return {
             form: {
                 email: "",
@@ -27,21 +29,15 @@ export default {
     },
     methods: {
         login: function (event) {
-            let self = this;
             event.preventDefault();
-            fetch('http://localhost:4060/authentication/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: this.form.email,
-                    password: this.form.password
-                })
-            }).then(function(response) {
+            axios.post('http://localhost:4060/authentication/login', {
+                email: this.form.email,
+                password: this.form.password
+            }).then(response => {
                 if (response.status == 200) {
                     console.log(response)
-                    self.$emit("loggedIn", true)
+                    this.$store.commit("setLoggedIn", true)
+                    this.$store.commit("setEmail", response.data.user.email)
                 } else {
                     alert("Login errado.")
                 }
