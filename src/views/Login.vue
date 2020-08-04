@@ -35,9 +35,9 @@ export default {
                 password: this.form.password
             }).then(response => {
                 if (response.status == 200) {
-                    console.log(response)
                     this.$store.commit("setLoggedIn", true)
                     this.$store.commit("setEmail", response.data.user.email)
+                    this.$router.push("/")
                 } else {
                     alert("Login errado.")
                 }

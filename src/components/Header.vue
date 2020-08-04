@@ -9,6 +9,9 @@
                 <b-nav-item>
                     <router-link class="nav-link" to="/">Home</router-link>
                 </b-nav-item>
+                <b-nav-item v-if="loggedIn">
+                    <router-link class="nav-link" to="/chat">Chat</router-link>
+                </b-nav-item>
                 <b-nav-item>
                     <router-link class="nav-link" to="/about">About</router-link>
                 </b-nav-item>
