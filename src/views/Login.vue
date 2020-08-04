@@ -33,7 +33,8 @@ export default {
             axios.post('http://localhost:4060/authentication/login', {
                 email: this.form.email,
                 password: this.form.password
-            }).then(response => {
+            }, { withCredentials: true })
+            .then(response => {
                 if (response.status == 200) {
                     this.$store.commit("setLoggedIn", true)
                     this.$store.commit("setEmail", response.data.user.email)

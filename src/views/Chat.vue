@@ -48,7 +48,7 @@ export default {
         }
     },
     mounted() {
-        this.$socket.emit("chat connect");
+        this.$socket.emit("chatConnect");
     },
     methods: {
         sendMessage() {

@@ -23,8 +23,9 @@
                         <span v-if="loggedIn">{{ email }}</span>
                         <span v-else>Not logged in</span>
                     </template>
-                    <router-link class="dropdown-item" to="/login">Login</router-link>
-                    <router-link class="dropdown-item" to="/signup">Signup</router-link>
+                    <router-link v-if="!loggedIn" class="dropdown-item" to="/login">Login</router-link>
+                    <router-link v-if="!loggedIn" class="dropdown-item" to="/signup">Signup</router-link>
+					<a v-else class="dropdown-item" @click="logout">Logout</a>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
         </b-collapse>
@@ -41,7 +42,14 @@ export default {
         email() {
             return this.$store.state.auth.email
         }
-    }
+	},
+	methods: {
+		logout() {
+			this.$store.state.auth.loggedIn = false;
+            this.$store.state.auth.email = "";
+            this.$router.push("/");
+		}
+	}
 }
 </script>
 
@@ -50,5 +58,6 @@ a,
 a:hover {
 	color: inherit;
 	text-decoration: none;
+	cursor: pointer;
 }
 </style>
