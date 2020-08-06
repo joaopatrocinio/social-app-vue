@@ -1,12 +1,13 @@
 <template>
     <div class="login-container">
+        <h1 class="mb-4">Login</h1>
         <b-form @submit="login">
             <b-form-group id="input-group-email" label="Email address:" label-for="email">
                 <b-form-input id="email" v-model="form.email" type="email" required placeholder="Enter email" ></b-form-input>
             </b-form-group>
 
-            <b-form-group id="input-group-password" label="Password" label-for="input-2">
-                <b-form-input id="input-2" v-model="form.password" type="password" required placeholder="Enter password" ></b-form-input>
+            <b-form-group id="input-group-password" label="Password" label-for="password">
+                <b-form-input id="password" v-model="form.password" type="password" required placeholder="Enter password" ></b-form-input>
             </b-form-group>
 
             <b-button type="submit" variant="primary">Submit</b-button>
@@ -40,7 +41,7 @@ export default {
                     this.$store.commit("setEmail", response.data.user.email)
                     this.$router.push("/")
                 } else {
-                    alert("Login errado.")
+                    alert("error")
                 }
             });
         }

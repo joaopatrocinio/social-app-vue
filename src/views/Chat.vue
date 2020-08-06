@@ -2,14 +2,16 @@
     <div>
         <h1>Chat</h1>
         <ChatMessages v-bind:messages="messages"></ChatMessages>
-        <b-row class="mt-2">
-            <b-col cols="10">
-                <b-form-input type="text" v-model="sendText" placeholder="Type to chat..."></b-form-input>
-            </b-col>
-            <b-col cols="2">
-                <b-button class="btn-block" variant="primary" v-on:click="sendMessage">Send</b-button>
-            </b-col>
-        </b-row>
+        <form @submit="sendMessage">
+            <b-row class="mt-2">
+                <b-col cols="10">
+                    <b-form-input type="text" class="typingInput" v-model="sendText" placeholder="Type to chat..."></b-form-input>
+                </b-col>
+                <b-col cols="2">
+                    <b-button type="submit" class="btn-block" variant="primary">Send</b-button>
+                </b-col>
+            </b-row>
+        </form>
     </div>
 </template>
 
@@ -37,7 +39,7 @@ export default {
         }
     },
     mounted() {
-        this.socket.emit("chatConnect");
+        document.getElementsByClassName("typingInput")[0].focus();
         this.socket.on("previousMessages", (data) => {
             for (let msg of data) {
                 this.messages.push({
@@ -53,8 +55,12 @@ export default {
             })
         })
     },
+    destroyed() {
+        this.socket.emit("leave");
+    },
     methods: {
-        sendMessage() {
+        sendMessage(e) {
+            e.preventDefault();
             this.socket.emit("chatMessage", this.sendText);
             this.sendText = "";
         }
