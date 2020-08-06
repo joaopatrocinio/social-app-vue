@@ -15,6 +15,8 @@
 
 <script>
 import ChatMessages from '@/components/ChatMessages.vue'
+import io from 'socket.io-client';
+
 export default {
     name: "Chat",
     components: {
@@ -22,37 +24,38 @@ export default {
     },
     data() {
         return {
+            socket: {},
             sendText: "",
             messages: []
         }
     },
-    sockets: {
-        previousMessages(data) {
+    created() {
+        if (!this.$store.state.auth.loggedIn) {
+            this.$router.push("/login")
+        } else {
+            this.socket = io("http://localhost:4060");
+        }
+    },
+    mounted() {
+        this.socket.emit("chatConnect");
+        this.socket.on("previousMessages", (data) => {
             for (let msg of data) {
                 this.messages.push({
                     user: msg.user,
                     message: msg.message
                 })
             }
-        },
-        chatMessage(data) {
+        })
+        this.socket.on("chatMessage", (data) => {
             this.messages.push({
                 user: data.user,
                 message: data.message
             })
-        }
-    },
-    created() {
-        if (!this.$store.state.auth.loggedIn) {
-            this.$router.push("/login")
-        }
-    },
-    mounted() {
-        this.$socket.emit("chatConnect");
+        })
     },
     methods: {
         sendMessage() {
-            this.$socket.emit("chatMessage", this.sendText);
+            this.socket.emit("chatMessage", this.sendText);
             this.sendText = "";
         }
     }

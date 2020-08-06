@@ -8,13 +8,6 @@ import { BootstrapVue } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import VueSocketIO from 'vue-socket.io';
-
-Vue.use(new VueSocketIO({
-    debug: true,
-    connection: 'http://localhost:4060'
-}))
-
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
 

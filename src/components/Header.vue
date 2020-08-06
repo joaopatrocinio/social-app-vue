@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'Header',
     computed: {
@@ -42,12 +43,29 @@ export default {
         email() {
             return this.$store.state.auth.email
         }
-	},
+    },
+    mounted() {
+        axios.get("http://localhost:4060/authentication/verify", {
+            withCredentials: true
+        }).then((res) => {
+            if (res.data.user) {
+                this.$store.state.auth.loggedIn = true;
+                this.$store.state.auth.email = res.data.user.email;
+            }
+        })
+    },
 	methods: {
 		logout() {
-			this.$store.state.auth.loggedIn = false;
-            this.$store.state.auth.email = "";
-            this.$router.push("/");
+            axios.get('http://localhost:4060/authentication/logout', { withCredentials: true })
+            .then(response => {
+                if (response.status == 200) {
+                    this.$store.state.auth.loggedIn = false;
+                    this.$store.state.auth.email = "";
+                    this.$router.push("/");
+                } else {
+                    alert("Erro")
+                }
+            });
 		}
 	}
 }
