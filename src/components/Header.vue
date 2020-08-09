@@ -12,12 +12,18 @@
                 <b-nav-item v-if="loggedIn">
                     <router-link class="nav-link" to="/chat">Chat</router-link>
                 </b-nav-item>
+                <b-nav-item v-if="loggedIn">
+                    <router-link class="nav-link" to="/game">Game</router-link>
+                </b-nav-item>
                 <b-nav-item>
                     <router-link class="nav-link" to="/about">About</router-link>
                 </b-nav-item>
             </b-navbar-nav>
 
             <b-navbar-nav class="ml-auto">
+                <b-nav-form>
+                    <b-form-input v-model="searchText" size="md" class="mr-sm-2" placeholder="Search"></b-form-input>
+                </b-nav-form>
                 <b-nav-item-dropdown right>
                     <template v-slot:button-content>
                         <span v-if="loggedIn">{{ email }}</span>
@@ -36,12 +42,25 @@
 import axios from 'axios'
 export default {
     name: 'Header',
+    data() {
+        return {
+            searchText: ""
+        }
+    },
     computed: {
         loggedIn() {
             return this.$store.state.auth.loggedIn
         },
         email() {
             return this.$store.state.auth.email
+        }
+    },
+    watch: {
+        searchText() {
+            if (this.searchText != "") {
+                console.log(this.searchText)
+                this.$router.push("/search/" + this.searchText)
+            }
         }
     },
     mounted() {

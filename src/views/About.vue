@@ -13,7 +13,7 @@ export default {
 	data() {
 		return {
 			test: 0,
-			verify: "Waiting"
+			verify: "Check"
 		}
 	},
 	watch: {

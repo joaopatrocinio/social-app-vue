@@ -29,6 +29,16 @@ Vue.use(VueRouter)
     path: '/signup',
     name: 'Signup',
     component: () => import('../views/Signup.vue')
+  },
+  {
+    path: '/game',
+    name: 'Game',
+    component: () => import('../views/Game.vue')
+  },
+  {
+    path: '/search/:query',
+    name: 'Search',
+    component: () => import('../views/Search.vue')
   }
 ]
 

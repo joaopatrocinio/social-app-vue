@@ -36,6 +36,7 @@ export default {
             this.$router.push("/login")
         } else {
             this.socket = io("http://localhost:4060");
+            this.socket.emit("chatConnect")
         }
     },
     mounted() {
